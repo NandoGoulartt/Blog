@@ -2,7 +2,6 @@ import NavBar from "@/componentes/navBar/navBar";
 import Postagem from "@/componentes/postagem/postagem";
 import { useState, useEffect } from "react";
 
-// Exemplo de dados das postagens do blog (simulação)
 const blogPosts = [
   {
     id: 1,
@@ -22,7 +21,6 @@ const blogPosts = [
     likes: 0,
     comments: [],
   },
-  // Adicione mais postagens conforme necessário
 ];
 
 export default function Home() {
@@ -30,15 +28,12 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Aqui você pode carregar as postagens do seu blog
-    // Simulando a carga das postagens para este exemplo
+
     setPosts(blogPosts);
   }, []);
 
   const handleLogin = () => {
-    // Lógica para fazer login, definindo isLoggedIn como true
     setIsLoggedIn(true);
-    // Aqui você pode adicionar a lógica real de login
   };
 
   const handleLike = (postId) => {
