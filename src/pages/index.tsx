@@ -1,3 +1,5 @@
+import NavBar from "@/componentes/navBar/navBar";
+import Postagem from "@/componentes/postagem/postagem";
 import { useState, useEffect } from "react";
 
 // Exemplo de dados das postagens do blog (simulação)
@@ -61,69 +63,12 @@ export default function Home() {
 
   return (
     <div>
-      <nav className="bg-gray-800 text-white p-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl font-bold">BlogGram</h1>
-          {isLoggedIn ? (
-            <button
-              onClick={() => {
-                // Lógica para redirecionar para o perfil do usuário
-                // Substitua a lógica de redirecionamento conforme necessário
-                console.log("Redirecionar para o perfil do usuário");
-              }}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-            >
-              Perfil
-            </button>
-          ) : (
-            <button
-              onClick={handleLogin}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-            >
-              Login
-            </button>
-          )}
-        </div>
-      </nav>
+      <NavBar/>
       <main className="flex flex-col min-h-screen px-10 py-24">
         <div className="grid grid-cols-1 gap-6">
-          {posts.map((post) => (
-            <div key={post.id} className="bg-white p-4 shadow-md rounded-md">
-              <span>{post.usuario}</span>
-              <h2 className="text-xl font-bold">{post.title}</h2>
-              <div>{post.thumbnail}</div>
-              <p>{post.content}</p>
-              {isLoggedIn && (
-                <div className="flex justify-between mt-4">
-                  <button
-                    onClick={() => handleLike(post.id)}
-                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded mr-2"
-                  >
-                    Like ({post.likes})
-                  </button>
-                  <button
-                    onClick={() => {
-                      const comment = prompt("Digite seu comentário:");
-                      if (comment) {
-                        handleComment(post.id, comment);
-                      }
-                    }}
-                    className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded"
-                  >
-                    Comment
-                  </button>
-                </div>
-              )}
-
-              <div className="mt-4">
-                <h3>Comentários:</h3>
-                <ul>
-                  {post.comments.map((comment, index) => (
-                    <li key={index}>{comment}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          {posts.map((post, index) => (
+                
+            <Postagem key={index} post={post}/>
           ))}
         </div>
       </main>
