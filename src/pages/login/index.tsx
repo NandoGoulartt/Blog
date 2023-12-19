@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import NavBar from "@/componentes/navBar/navBar";
 import Link from "next/link";
 
@@ -6,7 +6,7 @@ export default function Login() {
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Username:", nome);
     console.log("Password:", senha);

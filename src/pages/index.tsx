@@ -23,12 +23,21 @@ const blogPosts = [
   },
 ];
 
+type post = {
+  id: number;
+  title: string;
+  thumbnail: string;
+  content: string;
+  usuario: number;
+  likes: number;
+  comments: string[];
+};
+
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<post[]>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-
     setPosts(blogPosts);
   }, []);
 
@@ -36,8 +45,8 @@ export default function Home() {
     setIsLoggedIn(true);
   };
 
-  const handleLike = (postId) => {
-    const updatedPosts = posts.map((post) => {
+  const handleLike = (postId: number) => {
+    const updatedPosts = posts?.map((post) => {
       if (post.id === postId) {
         return { ...post, likes: post.likes + 1 };
       }
@@ -46,8 +55,8 @@ export default function Home() {
     setPosts(updatedPosts);
   };
 
-  const handleComment = (postId, comment) => {
-    const updatedPosts = posts.map((post) => {
+  const handleComment = (postId: number, comment: string) => {
+    const updatedPosts = posts?.map((post) => {
       if (post.id === postId) {
         return { ...post, comments: [...post.comments, comment] };
       }
@@ -58,12 +67,11 @@ export default function Home() {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <main className="flex flex-col min-h-screen px-10 py-24">
         <div className="grid grid-cols-1 gap-6">
-          {posts.map((post, index) => (
-                
-            <Postagem key={index} post={post}/>
+          {posts?.map((post, index) => (
+            <Postagem key={index} post={post} />
           ))}
         </div>
       </main>
