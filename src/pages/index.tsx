@@ -46,13 +46,7 @@ export default function Home() {
   };
 
   const handleLike = (postId: number) => {
-    const updatedPosts = posts?.map((post) => {
-      if (post.id === postId) {
-        return { ...post, likes: post.likes + 1 };
-      }
-      return post;
-    });
-    setPosts(updatedPosts);
+    //
   };
 
   const handleComment = (postId: number, comment: string) => {
