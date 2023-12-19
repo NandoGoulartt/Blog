@@ -20,7 +20,7 @@ export default function Postagem({post}:any) {
       {isLoggedIn && (
         <div className="flex justify-between mt-4">
           <button
-            onClick={() => handleLike(post.id)}
+            onClick={() => handleLike()}
             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded mr-2"
           >
             Like ({post.likes})
@@ -29,7 +29,7 @@ export default function Postagem({post}:any) {
             onClick={() => {
               const comment = prompt("Digite seu comentário:");
               if (comment) {
-                handleComment(post.id, comment);
+                handleComment();
               }
             }}
             className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded"
@@ -42,7 +42,7 @@ export default function Postagem({post}:any) {
       <div className="mt-4">
         <h3>Comentários:</h3>
         <ul>
-          {post.comments.map((comment, index) => (
+          {post.comments.map((comment: string, index: number) => (
             <li key={index}>{comment}</li>
           ))}
         </ul>
