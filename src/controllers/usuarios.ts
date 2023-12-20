@@ -18,3 +18,24 @@ export const cadastrarUsuario = async (req: NextApiRequest) => {
     return null;
   }
 };
+
+export const loginUsuario = async (email: string, senha: string) => {
+  try {
+    console.log("skdnpaslfnp", email);
+
+    const usuario = await Usuario.findOne({ email });
+
+    if (!usuario) {
+      return { error: "Credenciais inválidas" };
+    }
+
+    if (usuario.senha !== senha) {
+      return { error: "Credenciais inválidas" };
+    }
+
+    return { message: "Login bem-sucedido!" };
+  } catch (error) {
+    console.log(error);
+    return { error: "erro teste" };
+  }
+};

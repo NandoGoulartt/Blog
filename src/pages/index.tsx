@@ -35,29 +35,10 @@ type post = {
 
 export default function Home() {
   const [posts, setPosts] = useState<post[]>();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setPosts(blogPosts);
   }, []);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLike = (postId: number) => {
-    //
-  };
-
-  const handleComment = (postId: number, comment: string) => {
-    const updatedPosts = posts?.map((post) => {
-      if (post.id === postId) {
-        return { ...post, comments: [...post.comments, comment] };
-      }
-      return post;
-    });
-    setPosts(updatedPosts);
-  };
 
   return (
     <div>
