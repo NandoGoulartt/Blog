@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextProps {
   isLoggedIn: boolean;
-  login: (email: string, senha: string) => Promise<void>;
+  login: (email: string, senha: string) => Promise<any>;
   logout: () => void;
 }
 
@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProv
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [dadosSessao, setDadosSessao] = useState<any>();
 
-  const login = async (email: string, senha: string) => {
+  const login = async (email: string, senha: string): Promise<Response> => {
     try {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -41,9 +41,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProv
         setIsLoggedIn(false);
         console.error("Erro ao fazer login:", response.statusText);
       }
+
+      return response;
     } catch (error) {
       setIsLoggedIn(false);
       console.error("Erro ao fazer login:", error);
+      throw error;
     }
   };
 

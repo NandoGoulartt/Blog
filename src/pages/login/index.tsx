@@ -3,8 +3,10 @@ import NavBar from "@/componentes/navBar/navBar";
 import Link from "next/link";
 import { useAuth } from "@/contexto/auth";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export default function Login() {
+  const router = useRouter();
   const { login } = useAuth();
   const {
     register,
@@ -15,7 +17,18 @@ export default function Login() {
   const [erro, setErro] = useState("");
 
   const OnSubmit = async (data: any) => {
-    await login(data.email, data.senha);
+    try {
+      const response = await login(data.email, data.senha);
+      if (response.ok) {
+        router.push("/");
+      } else {
+        const errorData = await response.json();
+        console.error("Erro ao criar conta:", response.statusText);
+        setErro(errorData.message);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar requisição:", error);
+    }
   };
 
   return (
@@ -40,6 +53,8 @@ export default function Login() {
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
               Entrar
             </button>
+            {erro && <p className="text-black bg-red-300 w-full text-center my-2 rounded-md">{erro}</p>}
+
             <Link className="text-blue-500 mt-2 hover:underline" href="/createAccount">
               Ainda não tenho uma conta!
             </Link>
