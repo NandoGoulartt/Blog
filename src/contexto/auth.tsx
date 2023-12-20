@@ -1,4 +1,3 @@
-import { loginUsuario } from "@/controllers/usuarios";
 import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextProps {
