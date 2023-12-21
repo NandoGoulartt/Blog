@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div>
       <NavBar />
-      <main className="flex flex-col min-h-screen px-10 py-24">
+      <main className="flex flex-col bg-gray-100 min-h-screen px-10 py-24">
         {dadosSessao && (
           <button
             onClick={handleNewPost}

@@ -50,28 +50,28 @@ export default function Perfil() {
       <NavBar />
       <main className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
-          <h1 className="text-2xl font-bold mb-4">Alterar Dados</h1>
+          <h1 className="text-2xl font-bold text-black mb-4">Alterar Dados</h1>
           <form onSubmit={handleSubmit(OnSubmit)}>
             <input
               type="text"
               placeholder="Nome"
               defaultValue={dadosSessao ? dadosSessao.usuario.nome : ""}
               {...register("nome", { required: true })}
-              className="border border-gray-300 rounded-md p-2 mb-2 w-full"
+              className="border border-gray-300 text-black rounded-md p-2 mb-2 w-full"
             />
             <input
               type="text"
               placeholder="Email"
               defaultValue={dadosSessao ? dadosSessao.usuario.email : ""}
               {...register("email", { required: true })}
-              className="border border-gray-300 rounded-md p-2 mb-2 w-full"
+              className="border text-black border-gray-300 rounded-md p-2 mb-2 w-full"
             />
             <input
               type="text"
               placeholder="Senha"
               defaultValue={dadosSessao ? dadosSessao.usuario.senha : ""}
               {...register("senha", { required: true })}
-              className="border border-gray-300 rounded-md p-2 mb-2 w-full"
+              className="border text-black border-gray-300 rounded-md p-2 mb-2 w-full"
             />
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
               Alterar Dados
