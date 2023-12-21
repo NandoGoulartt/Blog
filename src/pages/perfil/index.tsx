@@ -15,8 +15,6 @@ export default function Perfil() {
 
   const [erro, setErro] = useState("");
 
-  console.log(dadosSessao);
-
   const OnSubmit = async (data: any) => {
     try {
       const response = await fetch("/api/usuario", {
@@ -34,7 +32,6 @@ export default function Perfil() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
         await login(data.email, data.senha);
         router.push("/");
       } else {

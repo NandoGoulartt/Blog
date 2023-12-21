@@ -25,7 +25,6 @@ export default function Cadastro() {
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log("Conta criada com sucesso!", responseData);
       } else {
         const errorData = await response.json();
         console.error("Erro ao criar conta:", response.statusText);

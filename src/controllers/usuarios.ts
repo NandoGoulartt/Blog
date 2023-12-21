@@ -16,7 +16,6 @@ export const cadastrarUsuario = async (req: NextApiRequest, res: NextApiResponse
 
     const novoUsuario = await Usuario.create({ nome, email, senha });
 
-    console.log("Usuário cadastrado:", novoUsuario);
 
     return res.status(200).json(novoUsuario);
   } catch (error: unknown) {
@@ -56,7 +55,6 @@ export const loginUsuario = async (req: NextApiRequest, res: NextApiResponse) =>
     const usuario = await Usuario.findOne({ email });
 
     if (!usuario || senha !== usuario.senha) {
-      console.log("Credenciais inválidas");
       return res.status(404).json({ message: "Credenciais inválidas" });
     }
 

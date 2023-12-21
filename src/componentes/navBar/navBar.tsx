@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexto/auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -29,7 +30,10 @@ export default function NavBar() {
   return (
     <nav className="bg-gray-800 text-white p-4 absolute top-0 left-0 right-0 z-50">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">BlogGram</h1>
+        <Link href="/">
+          <h1 className="text-xl font-bold">BlogGram</h1>
+        </Link>
+
         {dadosSessao ? (
           <div className="flex gap-3 items-center">
             <button
