@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 export default function Perfil() {
   const router = useRouter();
-  const { dadosSessao } = useAuth();
+  const { dadosSessao, login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -17,7 +17,36 @@ export default function Perfil() {
 
   console.log(dadosSessao);
 
-  const OnSubmit = async (data: any) => {};
+  const OnSubmit = async (data: any) => {
+    try {
+      const response = await fetch("/api/usuario", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: dadosSessao.usuario.email,
+          novaSenha: data.senha,
+          novoNome: data.nome,
+          novoEmail: data.email,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        await login(data.email, data.senha);
+        router.push("/");
+      } else {
+        const errorData = await response.json();
+        console.error("Erro ao atualizar perfil:", response.statusText);
+        setErro(errorData.message);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar requisição de atualização:", error);
+      setErro("Erro ao atualizar o perfil");
+    }
+  };
 
   return (
     <div>

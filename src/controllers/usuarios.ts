@@ -30,6 +30,25 @@ export const cadastrarUsuario = async (req: NextApiRequest, res: NextApiResponse
   }
 };
 
+export const atualizarUsuario = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { email, novaSenha, novoNome, novoEmail } = req.body;
+
+  try {
+    await connectToDatabase();
+    const usuario = await Usuario.findOne({ email });
+
+    usuario.senha = novaSenha || usuario.senha;
+    usuario.nome = novoNome || usuario.nome;
+    usuario.email = novoEmail || usuario.email;
+
+    await usuario.save();
+    return res.status(200).json(usuario);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Erro interno!" });
+  }
+};
+
 export const loginUsuario = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, senha } = req.body;
   try {
