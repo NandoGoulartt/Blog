@@ -45,7 +45,7 @@ export default function Home() {
   }, []);
 
   const handleNewPost = () => {
-    router.push("/new-post");
+    router.push("/postagem");
   };
 
   return (
@@ -53,10 +53,7 @@ export default function Home() {
       <NavBar />
       <main className="flex flex-col bg-gray-100 min-h-screen px-10 py-24">
         {dadosSessao && (
-          <button
-            onClick={handleNewPost}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-4"
-          >
+          <button onClick={handleNewPost} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-4">
             Nova Postagem
           </button>
         )}
