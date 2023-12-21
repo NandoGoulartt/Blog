@@ -52,6 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProv
   };
 
   const logout = () => {
+    setDadosSessao(null)
     setIsLoggedIn(false);
   };
 
