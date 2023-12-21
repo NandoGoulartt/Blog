@@ -1,6 +1,8 @@
+import { useAuth } from "@/contexto/auth";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
+  const { dadosSessao } = useAuth();
   const router = useRouter();
 
   const handleLogin = () => {
@@ -10,17 +12,32 @@ export default function NavBar() {
     <nav className="bg-gray-800 text-white p-4 absolute top-0 left-0 right-0 z-50">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">BlogGram</h1>
-        <button
-          onClick={() => {
-            console.log("Teste");
-          }}
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-        >
-          Perfil
-        </button>
-        <button onClick={handleLogin} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
-          Login
-        </button>
+        {dadosSessao ? (
+          <>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  console.log("Notificações");
+                }}
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+              >
+                Notificações
+              </button>
+              <button
+                onClick={() => {
+                  console.log("Perfil");
+                }}
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+              >
+                Perfil
+              </button>
+            </div>
+          </>
+        ) : (
+          <button onClick={handleLogin} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
+            Login
+          </button>
+        )}
       </div>
     </nav>
   );

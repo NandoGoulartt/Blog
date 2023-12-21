@@ -1,6 +1,8 @@
 import NavBar from "@/componentes/navBar/navBar";
 import Postagem from "@/componentes/postagem/postagem";
+import { useAuth } from "@/contexto/auth";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const blogPosts = [
   {
@@ -34,16 +36,30 @@ type post = {
 };
 
 export default function Home() {
+  const { dadosSessao } = useAuth();
   const [posts, setPosts] = useState<post[]>();
+  const router = useRouter();
 
   useEffect(() => {
     setPosts(blogPosts);
   }, []);
 
+  const handleNewPost = () => {
+    router.push("/new-post");
+  };
+
   return (
     <div>
       <NavBar />
       <main className="flex flex-col min-h-screen px-10 py-24">
+        {dadosSessao && (
+          <button
+            onClick={handleNewPost}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-4"
+          >
+            Nova Postagem
+          </button>
+        )}
         <div className="grid grid-cols-1 gap-6">
           {posts?.map((post, index) => (
             <Postagem key={index} post={post} />

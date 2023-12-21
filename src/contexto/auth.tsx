@@ -4,12 +4,14 @@ interface AuthContextProps {
   isLoggedIn: boolean;
   login: (email: string, senha: string) => Promise<any>;
   logout: () => void;
+  dadosSessao: any;
 }
 
 const AuthContext = createContext<AuthContextProps>({
   isLoggedIn: false,
   login: async () => {},
   logout: () => {},
+  dadosSessao: null,
 });
 
 export interface AuthProviderProps {
@@ -53,5 +55,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProv
     setIsLoggedIn(false);
   };
 
-  return <AuthContext.Provider value={{ isLoggedIn, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ isLoggedIn, login, logout, dadosSessao }}>{children}</AuthContext.Provider>;
 };
