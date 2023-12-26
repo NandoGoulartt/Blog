@@ -21,6 +21,8 @@ const postagemSchema = new mongoose.Schema({
   },
 });
 
-const Postagem = mongoose.model<PostagemInterface>("Postagem", postagemSchema);
+const Postagem = mongoose.models?.Postagem ||  mongoose.model<PostagemInterface>("Postagem", postagemSchema);
 
 export default Postagem;
+
+

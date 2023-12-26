@@ -4,44 +4,36 @@ import { useAuth } from "@/contexto/auth";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "Postagem 1",
-    thumbnail: "imagem postagem 1",
-    content: "Conteúdo da postagem 1...",
-    usuario: 2,
-    likes: 0,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "Postagem 2",
-    thumbnail: "imagem postagem 2",
-    content: "Conteúdo da postagem 2...",
-    usuario: 1,
-    likes: 0,
-    comments: [],
-  },
-];
-
-type post = {
-  id: number;
+type Postagem = {
+  _id: string,
   title: string;
   thumbnail: string;
   content: string;
-  usuario: number;
-  likes: number;
-  comments: string[];
-};
+}
 
 export default function Home() {
   const { dadosSessao } = useAuth();
-  const [posts, setPosts] = useState<post[]>();
+  const [posts, setPosts] = useState<Postagem[] |[]>([]);
+
   const router = useRouter();
 
   useEffect(() => {
-    setPosts(blogPosts);
+    async function fetchPosts() {
+      try {
+        const response = await fetch('/api/postagem');
+        if (response.ok) {
+          const postsData = await response.json();
+          console.log(postsData)
+          setPosts(postsData);
+        } else {
+          throw new Error('Erro ao buscar postagens');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar postagens:', error);
+      }
+    }
+
+    fetchPosts();
   }, []);
 
   const handleNewPost = () => {
@@ -57,9 +49,9 @@ export default function Home() {
             Nova Postagem
           </button>
         )}
-        <div className="grid grid-cols-1 gap-6">
-          {posts?.map((post, index) => (
-            <Postagem key={index} post={post} />
+        <div className="grid grid-cols-1 justify-center gap-6">
+          {posts.map((post) => (
+            <Postagem key={post._id} post={post} />
           ))}
         </div>
       </main>

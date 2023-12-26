@@ -1,24 +1,49 @@
 import { useState } from "react";
 import NavBar from "@/componentes/navBar/navBar";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import { useAuth } from "@/contexto/auth";
 
-type NewPostData = {
+type NovaPostagem = {
   title: string;
   thumbnail: string | ArrayBuffer | null;
   content: string;
+  usuario: string;
 };
 
+const DynamicJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
 export default function NewPostPage() {
-  const [newPostData, setNewPostData] = useState<NewPostData>({
+  const { dadosSessao } = useAuth();
+  const [newPostData, setNewPostData] = useState<NovaPostagem>({
     title: "",
     thumbnail: null,
     content: "",
+    usuario: dadosSessao.usuario._id
   });
   const router = useRouter();
 
-  const handleCreatePost = () => {
-    console.log("Nova postagem criada:", newPostData);
-    router.push("/");
+
+  const handleCreatePost = async () => {
+    try {
+      const response = await fetch("/api/postagem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPostData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Resposta da criação de postagem:", data);
+        router.push("/");
+      } else {
+        throw new Error("Erro ao criar postagem");
+      }
+    } catch (error) {
+      console.error("Erro ao criar postagem:", error);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +60,10 @@ export default function NewPostPage() {
     }
   };
 
+  const contentFieldChanged = (content: string) => {
+    setNewPostData({ ...newPostData, content: content });
+  };
+
   return (
     <div>
       <NavBar />
@@ -43,8 +72,8 @@ export default function NewPostPage() {
           <div className="flex justify-between items-center border-b-2 p-4">
             <h2>Criar Nova Postagem</h2>
           </div>
-          <div className="p-4">
-            <label htmlFor="title" className="block mb-2">
+          <div className="p-4 flex flex-col min-h-full">
+            <label htmlFor="title" className="mb-2">
               Título:
             </label>
             <input
@@ -61,7 +90,7 @@ export default function NewPostPage() {
               className="border-2 border-gray-300 p-2 mb-2 rounded-md w-full"
             />
 
-            <label htmlFor="image" className="block mb-2">
+            <label htmlFor="image" className=" mb-2">
               Anexar Imagem:
             </label>
             <input
@@ -72,20 +101,12 @@ export default function NewPostPage() {
               className="border-2 border-gray-300 p-2 mb-2 rounded-md w-full"
             />
 
-            <label htmlFor="content" className="block mb-2">
+            <label htmlFor="content" className="mb-2">
               Conteúdo:
             </label>
-            <textarea
-              id="content"
-              placeholder="Insira o conteúdo"
+            <DynamicJoditEditor
               value={newPostData.content}
-              onChange={(e) =>
-                setNewPostData({
-                  ...newPostData,
-                  content: e.target.value,
-                })
-              }
-              className="border-2 border-gray-300 p-2 rounded-md w-full h-32 resize-none"
+              onChange={(newContent) => contentFieldChanged(newContent)}
             />
           </div>
           <div className="flex justify-end p-4 border-t-2">
