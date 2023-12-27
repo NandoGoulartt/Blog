@@ -1,6 +1,7 @@
 import NavBar from "@/componentes/navBar/navBar";
 import Postagem from "@/componentes/postagem/postagem";
 import { useAuth } from "@/contexto/auth";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 export type Postagem = {
@@ -13,12 +14,13 @@ export type Postagem = {
 
 export default function MinhasPostagem() {
   const { dadosSessao } = useAuth();
+  const router = useRouter();
   const [post, setPost] = useState<Postagem[] | null>(null);
 
   useEffect(() => {
-    async function fetchUserPosts(userId: string) {
+    async function fetchUserPosts(userId: string | string[]) {
       try {
-        const response = await fetch(`/api/postagem/postsDoUsuario?userId=${userId}`);
+        const response = await fetch(`/api/postagem/postagemId?userId=${userId}`);
         if (!response.ok) {
           throw new Error('Erro ao buscar as postagens');
         }
@@ -29,11 +31,11 @@ export default function MinhasPostagem() {
       }
     }
 
-    if (dadosSessao?.usuario?._id) {
-      const userId = dadosSessao.usuario._id;
+    if (router.query.userid) {
+      const userId = router.query.userid;
       fetchUserPosts(userId); 
     }
-  }, [dadosSessao]);
+  }, [router.query.userid]);
 
   if (!post) {
     return <p>Carregando...</p>;

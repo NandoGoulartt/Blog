@@ -28,7 +28,8 @@ export default function NavBar() {
   };
 
   const handleIrParaPostagem = () => {
-    router.push("/postagem/minhasPostagem");
+    console.log(dadosSessao)
+    router.push(`/postagem/minhasPostagem?userid=${dadosSessao.usuario._id}`);
     setMostrarMenu(false);
   };
 
