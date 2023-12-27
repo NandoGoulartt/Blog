@@ -11,7 +11,6 @@ export default function ViewPostagem() {
 
   useEffect(() => {
     async function fetchPostById(postId: string | string[]) {
-      console.log(postId);
       try {
         const response = await fetch(`/api/postagem/postagemId?id=${postId}`);
         if (!response.ok) {

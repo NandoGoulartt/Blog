@@ -27,6 +27,11 @@ export default function NavBar() {
     setMostrarMenu(false);
   };
 
+  const handleIrParaPostagem = () => {
+    router.push("/postagem/minhasPostagem");
+    setMostrarMenu(false);
+  };
+
   return (
     <nav className="bg-gray-800 text-white p-4 absolute top-0 left-0 right-0 z-50">
       <div className="flex justify-between items-center">
@@ -52,6 +57,9 @@ export default function NavBar() {
                 <div className="absolute right-0 mt-1 bg-white w-32 text-black rounded shadow-md">
                   <button onClick={handleIrParaPerfil} className="block w-full px-4 py-2 text-left hover:bg-gray-600">
                     Ir para perfil
+                  </button>
+                  <button onClick={handleIrParaPostagem} className="block w-full px-4 py-2 text-left hover:bg-gray-600">
+                    Postagens
                   </button>
                   <button onClick={handleSair} className="block w-full px-4 py-2 text-left hover:bg-gray-600">
                     Sair
