@@ -13,7 +13,7 @@ type NovaPostagem = {
 
 const DynamicJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-export default function NewPostPage() {
+export default function NovaPostagem() {
   const { dadosSessao } = useAuth();
   const [newPostData, setNewPostData] = useState<NovaPostagem>({
     title: "",

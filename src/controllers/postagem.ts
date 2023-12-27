@@ -45,3 +45,31 @@ export const buscarPostagem = async () => {
     return [];
   }
 };
+
+export const buscarPostagemPorId = async (postId: string) => {
+  try {
+    await connectToDatabase();
+    
+    const postagem = await Postagem.findById(postId).lean();
+
+    if (!postagem) {
+      return null; 
+    }
+    
+    const usuario = await Usuario.findOne({ _id: postagem.usuario });
+
+    const postagemComUsuario = {
+      ...postagem,
+      usuario: usuario 
+    };
+
+    return postagemComUsuario;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Erro ao buscar a postagem com detalhes do usuário:", error.message);
+    } else {
+      console.error("Erro desconhecido ao buscar a postagem com detalhes do usuário:", error);
+    }
+    return null;
+  }
+};

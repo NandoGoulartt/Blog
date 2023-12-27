@@ -4,11 +4,12 @@ import { useAuth } from "@/contexto/auth";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-type Postagem = {
+export type Postagem = {
   _id: string,
   title: string;
   thumbnail: string;
   content: string;
+  usuario: any;
 }
 
 export default function Home() {
@@ -37,7 +38,7 @@ export default function Home() {
   }, []);
 
   const handleNewPost = () => {
-    router.push("/postagem");
+    router.push("/postagem/novaPostagem");
   };
 
   return (

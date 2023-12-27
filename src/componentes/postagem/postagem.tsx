@@ -1,39 +1,38 @@
 /* eslint-disable @next/next/no-img-element */
-import { useAuth } from "@/contexto/auth";
+import Link from 'next/link';
 
 export default function Postagem({ post }: any) {
-  const { dadosSessao } = useAuth();
-
   return (
-    <div key={post.id} className="bg-white p-4 shadow-md max-w-2xl rounded-md">
-      <span className="text-black">{post.usuario?.nome}</span>
-      <h2 className="text-black text-xl font-bold">{post.title}</h2>
-      <img
-        src={post.thumbnail}
-        alt="Thumbnail"
-        className="max-w-full h-auto mb-4" 
-        style={{ maxWidth: "300px" }}
-      />
-      <p className="text-black" dangerouslySetInnerHTML={{ __html: post.content }}></p>
-      {dadosSessao && (
-        <div className="flex mt-4">
-          <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded mr-2">
-            Like ({post.likes})
-          </button>
-          <button className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded">Comment</button>
-        </div>
-      )}
+      <div className="block mb-6">
+        <div className="bg-white p-4 shadow-md rounded-md">
+          <div className="flex items-center">
+            <span className="text-black font-bold">@{post.usuario?.nome}</span>
+          </div>
+          <div className="flex">
+            <div>
+              <img
+                src={post.thumbnail}
+                alt="Thumbnail"
+                className="w-full h-auto mb-4 rounded"
+                style={{ maxHeight: '300px' }}
+              />
+            </div>
+            <div className="flex-1 ml-4">
+              <div className="mb-4">
+                <h2 className="text-black text-xl font-bold mb-2 text-center">{post.title}</h2>
+                <p className={`text-black overflow-hidden max-h-56`}>
+                  <span dangerouslySetInnerHTML={{ __html: post.content }} />
+                </p>
+                <Link href={`/postagem/viewPostagem?id=${post._id}`}>
+                  <p className={"text-center py-2 cursor-pointer rounded-md hover:bg-gray-200 bg-gray-300 transition duration-300"}>
+                    Clique para ver mais!
+                  </p>
+                 </Link>
 
-      <div className="mt-4">
-        <h3 className="text-black">Comentários:</h3>
-        {/* <ul>
-          {post.comments.map((comment: string, index: number) => (
-            <li key={index} className="text-black">
-              {comment}
-            </li>
-          ))}
-        </ul> */}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
