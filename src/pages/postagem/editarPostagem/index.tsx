@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import NavBar from "@/componentes/navBar/navBar";
 import dynamic from "next/dynamic";
 import Loading from "@/componentes/loading/loading";
+import LoadingButton from "@/componentes/button/button";
 
 type NovaPostagem = {
   title: string;
@@ -23,6 +24,7 @@ export default function EditarPostagem() {
     content: '',
     usuario: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchPostById(postId: string | string[]) {
       try {
@@ -45,6 +47,7 @@ export default function EditarPostagem() {
   }, [router.query.id]);
 
   const handleUpdatePost = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(`/api/postagem/postagemId?id=${id}`, {
         method: "PUT",
@@ -62,6 +65,8 @@ export default function EditarPostagem() {
       }
     } catch (error) {
       console.error("Erro ao atualizar postagem:", error);
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -149,9 +154,7 @@ export default function EditarPostagem() {
             )}
           </div>
           <div className="flex justify-end p-4 border-t-2">
-            <button onClick={handleUpdatePost} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-              Atualizar
-            </button>
+          <LoadingButton isLoading={isLoading} texto="Atualizar" onClick={handleUpdatePost}/>        
           </div>
         </div>
       </main>

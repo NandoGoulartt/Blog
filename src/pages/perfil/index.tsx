@@ -3,6 +3,7 @@ import NavBar from "@/componentes/navBar/navBar";
 import { useAuth } from "@/contexto/auth";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import LoadingButton from "@/componentes/button/button";
 
 export default function Perfil() {
   const router = useRouter();
@@ -12,10 +13,11 @@ export default function Perfil() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState("");
 
   const OnSubmit = async (data: any) => {
+    setIsLoading(true)
     try {
       const response = await fetch("/api/usuario", {
         method: "PUT",
@@ -42,6 +44,9 @@ export default function Perfil() {
     } catch (error) {
       console.error("Erro ao enviar requisição de atualização:", error);
       setErro("Erro ao atualizar o perfil");
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -73,9 +78,7 @@ export default function Perfil() {
               {...register("senha", { required: true })}
               className="border text-black border-gray-300 rounded-md p-2 mb-2 w-full"
             />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-              Alterar Dados
-            </button>
+            <LoadingButton isLoading={isLoading} texto="Alterar Dados" />
             {erro && <p className="text-black bg-red-300 w-full text-center my-2 rounded-md">{erro}</p>}
           </form>
         </div>

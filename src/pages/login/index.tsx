@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexto/auth";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import LoadingButton from "@/componentes/button/button";
 
 export default function Login() {
   const router = useRouter();
@@ -13,10 +14,11 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState("");
 
   const OnSubmit = async (data: any) => {
+    setIsLoading(true)
     try {
       const response = await login(data.email, data.senha);
       if (response.ok) {
@@ -28,6 +30,9 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Erro ao enviar requisição:", error);
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -50,9 +55,8 @@ export default function Login() {
               {...register("senha", { required: true })}
               className="border border-gray-300 text-black rounded-md p-2 mb-2 w-full"
             />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-              Entrar
-            </button>
+            <LoadingButton isLoading={isLoading} texto="Entrar" />
+            
             {erro && <p className="text-black bg-red-300 w-full text-center my-2 rounded-md">{erro}</p>}
 
             <Link className="text-blue-500 mt-2 hover:underline" href="/createAccount">

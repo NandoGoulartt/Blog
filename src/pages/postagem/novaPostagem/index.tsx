@@ -3,6 +3,7 @@ import NavBar from "@/componentes/navBar/navBar";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/contexto/auth";
+import LoadingButton from "@/componentes/button/button";
 
 type NovaPostagem = {
   title: string;
@@ -22,9 +23,10 @@ export default function NovaPostagem() {
     usuario: dadosSessao?.usuario?._id || ""
   });
   const router = useRouter();
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreatePost = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch("/api/postagem", {
         method: "POST",
@@ -43,6 +45,8 @@ export default function NovaPostagem() {
       }
     } catch (error) {
       console.error("Erro ao criar postagem:", error);
+    }    finally{
+      setIsLoading(false)
     }
   };
 
@@ -110,9 +114,8 @@ export default function NovaPostagem() {
             />
           </div>
           <div className="flex justify-end p-4 border-t-2">
-            <button onClick={handleCreatePost} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-              Criar
-            </button>
+            
+          <LoadingButton isLoading={isLoading} texto="Criar" onClick={handleCreatePost}/>
           </div>
         </div>
       </main>

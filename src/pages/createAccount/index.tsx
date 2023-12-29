@@ -2,6 +2,7 @@ import { useState, useRef, FormEvent } from "react";
 import Link from "next/link";
 import NavBar from "@/componentes/navBar/navBar";
 import { useForm } from "react-hook-form";
+import LoadingButton from "@/componentes/button/button";
 
 export default function Cadastro() {
   const {
@@ -9,10 +10,11 @@ export default function Cadastro() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState("");
 
   const OnSubmit = async (data: any) => {
+    setIsLoading(true)
     setErro("");
     try {
       const response = await fetch("/api/usuario", {
@@ -32,6 +34,9 @@ export default function Cadastro() {
       }
     } catch (error) {
       console.error("Erro ao enviar requisição:", error);
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -60,9 +65,7 @@ export default function Cadastro() {
               {...register("senha", { required: true })}
               className="border text-black border-gray-300 rounded-md p-2 mb-2 w-full"
             />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-              Cadastrar
-            </button>
+             <LoadingButton isLoading={isLoading} texto="Cadastrar" />
             {erro && <p className="text-black bg-red-300 w-full text-center my-2 rounded-md">{erro}</p>}
 
             <p className="mt-4">
