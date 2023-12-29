@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import NavBar from "@/componentes/navBar/navBar";
 import { useAuth } from "@/contexto/auth";
 import { Postagem } from "@/pages";
@@ -17,6 +18,7 @@ export default function ViewPostagem() {
           throw new Error('Erro ao buscar a postagem');
         }
         const data = await response.json();
+        console.log(data[0])
         setPost(data[0]); 
       } catch (error) {
         console.error('Erro ao buscar a postagem:');
@@ -37,7 +39,7 @@ export default function ViewPostagem() {
     <div>
       <NavBar />
       <main className="flex flex-col items-center justify-center bg-gray-100 min-h-screen px-10 py-24">
-        <div key={post._id} className="bg-white p-4 shadow-md max-w-2xl rounded-md min-w-[700px]">
+        <div key={post._id} className="bg-white p-2 shadow-md  rounded-md min-w-[70%]">
           <span className="text-black"><span className="text-black font-bold">Autor:</span> {post.usuario?.nome}</span>
           <div className="text-center">
           <h2 className="text-black text-xl font-bold">{post.title}</h2>
