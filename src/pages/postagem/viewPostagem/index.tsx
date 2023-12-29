@@ -17,7 +17,7 @@ export default function ViewPostagem() {
           throw new Error('Erro ao buscar a postagem');
         }
         const data = await response.json();
-        setPost(data); 
+        setPost(data[0]); 
       } catch (error) {
         console.error('Erro ao buscar a postagem:');
       }

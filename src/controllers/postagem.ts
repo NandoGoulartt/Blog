@@ -50,20 +50,25 @@ export const buscarPostagemPorId = async (postId: string) => {
   try {
     await connectToDatabase();
     
-    const postagem = await Postagem.findById(postId).lean();
+    const postagens = await Postagem.find({ _id: postId }).lean();
 
-    if (!postagem) {
+    if (!postagens) {
       return null; 
     }
     
-    const usuario = await Usuario.findOne({ _id: postagem.usuario });
+    const usuariosIds = [...new Set(postagens.map(postagem => postagem.usuario))];
 
-    const postagemComUsuario = {
-      ...postagem,
-      usuario: usuario 
-    };
+    const usuarios = await Usuario.find({ _id: { $in: usuariosIds } });
 
-    return postagemComUsuario;
+    const postagensComUsuario = postagens.map(postagem => {
+      const usuarioAssociado = usuarios.find(usuario => usuario._id.equals(postagem.usuario));
+      return {
+        ...postagem,
+        usuario: usuarioAssociado 
+      };
+    });
+
+    return postagensComUsuario;
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Erro ao buscar a postagem com detalhes do usuário:", error.message);
