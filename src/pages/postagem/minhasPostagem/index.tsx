@@ -1,3 +1,4 @@
+import Loading from "@/componentes/loading/loading";
 import NavBar from "@/componentes/navBar/navBar";
 import Postagem from "@/componentes/postagem/postagem";
 import { useAuth } from "@/contexto/auth";
@@ -38,7 +39,9 @@ export default function MinhasPostagem() {
   }, [router.query.userid]);
 
   if (!post) {
-    return <p>Carregando...</p>;
+    return (
+      <Loading/>
+    );
   }
 
   return (

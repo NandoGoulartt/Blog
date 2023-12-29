@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import NavBar from "@/componentes/navBar/navBar";
 import dynamic from "next/dynamic";
+import Loading from "@/componentes/loading/loading";
 
 type NovaPostagem = {
   title: string;
@@ -84,7 +85,9 @@ export default function EditarPostagem() {
   };
 
   if (!post) {
-    return <p>Carregando...</p>;
+    return (
+      <Loading/>
+    );
   }
 
   return (

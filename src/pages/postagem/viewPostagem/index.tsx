@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Loading from "@/componentes/loading/loading";
 import NavBar from "@/componentes/navBar/navBar";
 import { useAuth } from "@/contexto/auth";
 import { Postagem } from "@/pages";
@@ -32,7 +33,9 @@ export default function ViewPostagem() {
   }, [router.query.id]);
 
   if (!post) {
-    return <p>Carregando...</p>;
+    return (
+      <Loading/>
+    );
   }
 
   return (
