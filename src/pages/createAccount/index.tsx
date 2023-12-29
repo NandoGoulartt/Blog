@@ -3,6 +3,8 @@ import Link from "next/link";
 import NavBar from "@/componentes/navBar/navBar";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@/componentes/button/button";
+import { useAuth } from "@/contexto/auth";
+import router from "next/router";
 
 export default function Cadastro() {
   const {
@@ -10,6 +12,7 @@ export default function Cadastro() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState("");
 
@@ -27,6 +30,10 @@ export default function Cadastro() {
 
       if (response.ok) {
         const responseData = await response.json();
+        const responseLogin = await login(responseData.email, responseData.senha);
+        if (responseLogin.ok) {
+          router.push("/");
+        }
       } else {
         const errorData = await response.json();
         console.error("Erro ao criar conta:", response.statusText);
@@ -65,7 +72,7 @@ export default function Cadastro() {
               {...register("senha", { required: true })}
               className="border text-black border-gray-300 rounded-md p-2 mb-2 w-full"
             />
-             <LoadingButton isLoading={isLoading} texto="Cadastrar" />
+            <LoadingButton isLoading={isLoading} texto="Cadastrar" />
             {erro && <p className="text-black bg-red-300 w-full text-center my-2 rounded-md">{erro}</p>}
 
             <p className="mt-4">
