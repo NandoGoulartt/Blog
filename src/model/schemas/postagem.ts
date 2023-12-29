@@ -19,6 +19,8 @@ const postagemSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+}, {
+  timestamps: true,
 });
 
 const Postagem = mongoose.models?.Postagem ||  mongoose.model<PostagemInterface>("Postagem", postagemSchema);

@@ -36,17 +36,20 @@ export const editarPostagem = async ({ id, title, thumbnail, content, usuario }:
 export const buscarPostagem = async () => {
   try {
     await connectToDatabase();
-    const postagens = await Postagem.find({}).lean(); 
-    
-    const usuariosIds = [...new Set(postagens.map(postagem => postagem.usuario))];
+
+    const postagens = await Postagem.find({})
+      .sort({ updatedAt: -1 })
+      .lean();
+
+    const usuariosIds = [...new Set(postagens.map((postagem) => postagem.usuario))];
 
     const usuarios = await Usuario.find({ _id: { $in: usuariosIds } });
 
-    const postagensComUsuario = postagens.map(postagem => {
-      const usuarioAssociado = usuarios.find(usuario => usuario._id.equals(postagem.usuario));
+    const postagensComUsuario = postagens.map((postagem) => {
+      const usuarioAssociado = usuarios.find((usuario) => usuario._id.equals(postagem.usuario));
       return {
         ...postagem,
-        usuario: usuarioAssociado 
+        usuario: usuarioAssociado,
       };
     });
 
@@ -60,6 +63,7 @@ export const buscarPostagem = async () => {
     return [];
   }
 };
+
 
 export const buscarPostagemPorId = async (postId: string) => {
   try {
@@ -98,7 +102,9 @@ export const buscarPostagensPorUsuario = async (userId: string) => {
   try {
     await connectToDatabase();
     
-    const postagens = await Postagem.find({ usuario: userId }).lean();
+    const postagens = await Postagem.find({ usuario: userId })
+      .sort({ updatedAt: -1 }) 
+      .lean();
 
     if (!postagens || postagens.length === 0) {
       return null; 
