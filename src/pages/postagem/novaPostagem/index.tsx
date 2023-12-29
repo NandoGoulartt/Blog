@@ -19,7 +19,7 @@ export default function NovaPostagem() {
     title: "",
     thumbnail: null,
     content: "",
-    usuario: dadosSessao.usuario._id
+    usuario: dadosSessao?.usuario?._id || ""
   });
   const router = useRouter();
 
