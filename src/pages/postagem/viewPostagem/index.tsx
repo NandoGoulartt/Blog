@@ -40,7 +40,15 @@ export default function ViewPostagem() {
       <NavBar />
       <main className="flex flex-col items-center justify-center bg-gray-100 min-h-screen px-10 py-24">
         <div key={post._id} className="bg-white p-2 shadow-md  rounded-md min-w-[70%]">
+          <div className="flex-row flex justify-between">
           <span className="text-black"><span className="text-black font-bold">Autor:</span> {post.usuario?.nome}</span>
+          {dadosSessao && post.usuario?._id === dadosSessao.usuario._id && (
+                  <button onClick={() => router.push(`/editar-postagem/${post._id}`)} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded ml-2">
+                Editar
+              </button>
+          )}
+          </div>
+
           <div className="text-center">
           <h2 className="text-black text-xl font-bold">{post.title}</h2>
           <img
