@@ -18,6 +18,21 @@ export const criarPostagem = async ({ title, thumbnail, content, usuario }: { ti
   }
 };
 
+export const editarPostagem = async ({ id, title, thumbnail, content, usuario }: { id: string | string[]; title: string; thumbnail: string | ArrayBuffer | null; content: string; usuario: string }) => {
+  try {
+    await connectToDatabase();
+    const postagemAtualizada = await Postagem.findByIdAndUpdate(id, { title, thumbnail, content, usuario }, { new: true });
+    console.log("Postagem atualizada:", postagemAtualizada);
+    return postagemAtualizada;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Erro ao atualizar a postagem:", error.message);
+    } else {
+      console.error("Erro desconhecido ao atualizar a postagem:", error);
+    }
+    return null;
+  }
+};
 export const buscarPostagem = async () => {
   try {
     await connectToDatabase();

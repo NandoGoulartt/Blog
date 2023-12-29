@@ -43,7 +43,7 @@ export default function ViewPostagem() {
           <div className="flex-row flex justify-between">
           <span className="text-black"><span className="text-black font-bold">Autor:</span> {post.usuario?.nome}</span>
           {dadosSessao && post.usuario?._id === dadosSessao.usuario._id && (
-                  <button onClick={() => router.push(`/editar-postagem/${post._id}`)} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded ml-2">
+                  <button onClick={() => router.push(`/postagem/editarPostagem?id=${post._id}`)} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded ml-2">
                 Editar
               </button>
           )}

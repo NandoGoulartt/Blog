@@ -1,4 +1,4 @@
-import { buscarPostagemPorId, buscarPostagensPorUsuario } from "@/controllers/postagem";
+import { buscarPostagemPorId, buscarPostagensPorUsuario, editarPostagem } from "@/controllers/postagem";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -25,6 +25,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else {
         return res.status(400).json({ error: "Parâmetros inválidos" });
       }
+    }else if (req.method === "PUT") {
+      const { id } = req.query;
+      const { title, thumbnail, content, usuario } = req.body;
+
+      if (!id || !title || !thumbnail || !content || !usuario) {
+        return res.status(400).json({ error: "Parâmetros inválidos para atualização da postagem" });
+      }
+
+      const postagemAtualizada = await editarPostagem({ id, title, thumbnail, content, usuario });
+
+      if (!postagemAtualizada) {
+        return res.status(500).json({ error: "Erro ao atualizar a postagem" });
+      }
+
+      return res.status(200).json(postagemAtualizada);
     } else {
       res.status(405).end();
     }
